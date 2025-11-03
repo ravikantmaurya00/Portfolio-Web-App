@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<p>
+  <a href="{{ url_for('admin_new_project') }}" class="btn">+ New Project</a>
+  <a href="{{ url_for('admin_logout') }}" class="btn tiny" style="background:#e11d48;">Logout</a>
+</p>
+
+<section>
+  <h3>Projects</h3>
+  {% if projects %}
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Created</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in projects %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.title }}</td>
+        <td>{{ p.created_at.strftime('%Y-%m-%d') }}</td>
+        <td>
+          <a href="{{ url_for('project_detail', project_id=p.id) }}" target="_blank" class="btn tiny">View</a>
+          <a href="{{ url_for('admin_edit_project', project_id=p.id) }}" class="btn tiny">Edit</a>
+          <form method="post" action="{{ url_for('admin_delete_project', project_id=p.id) }}" style="display:inline;">
+            <button type="submit" class="btn tiny danger" onclick="return confirm('Delete this project?');">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>No projects found.</p>
+  {% endif %}
+</section>
+
+<hr>
+
+<section>
+  <h3>Recent Contact Messages</h3>
+  {% if messages %}
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Subject</th>
+        <th>Message</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in messages %}
+      <tr>
+        <td>{{ m.name }}</td>
+        <td>{{ m.email }}</td>
+        <td>{{ m.subject or '-' }}</td>
+        <td>{{ m.message[:80] }}{% if m.message|length > 80 %}...{% endif %}</td>
+        <td>{{ m.created_at.strftime('%Y-%m-%d') }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>No messages yet.</p>
+  {% endif %}
+</section>
+
+{% endblock %}

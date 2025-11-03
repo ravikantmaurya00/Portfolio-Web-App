@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ project and "Edit Project" or "Add New Project" }}</h2>
+
+<form method="post" enctype="multipart/form-data" class="form-card">
+  {{ form.hidden_tag() }}
+
+  <div class="form-row">
+    <label>{{ form.title.label }}</label><br>
+    {{ form.title(size=60) }}
+  </div>
+
+  <div class="form-row">
+    <label>{{ form.short_description.label }}</label><br>
+    {{ form.short_description(size=80) }}
+  </div>
+
+  <div class="form-row">
+    <label>{{ form.long_description.label }}</label><br>
+    {{ form.long_description(rows=6, cols=70) }}
+  </div>
+
+  <div class="form-row">
+    <label>{{ form.project_url.label }}</label><br>
+    {{ form.project_url(size=80) }}
+  </div>
+
+  <div class="form-row">
+    <label>{{ form.image.label }}</label><br>
+    {{ form.image }}
+    {% if project and project.image_filename %}
+      <p>Current image:</p>
+      <img src="{{ '/' + project.image_filename }}" alt="{{ project.title }}" style="max-width:200px;border-radius:8px;">
+    {% endif %}
+  </div>
+
+  <div class="form-row">
+    {{ form.submit(class="btn") }}
+    <a href="{{ url_for('admin_dashboard') }}" class="btn tiny">Cancel</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<article class="project-detail">
+  <h2>{{ project.title }}</h2>
+  {% if project.image_filename %}
+    <img src="{{ '/' + project.image_filename }}" alt="{{ project.title }}">
+  {% endif %}
+  <p>{{ project.long_description or project.short_description }}</p>
+  {% if project.project_url %}
+    <p><a href="{{ project.project_url }}" target="_blank" rel="noopener" class="btn">Visit</a></p>
+  {% endif %}
+</article>
+{% endblock %}

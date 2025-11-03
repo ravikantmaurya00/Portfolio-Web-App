@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>Hi, I'm Your Name — Developer & Designer</h2>
+  <p>A passionate Python developer and tech enthusiast. I enjoy building real-world projects using Flask, Pandas, and automation tools, with a focus on clean design, functionality, and problem-solving.
+My portfolio showcases hands-on projects in web development, data analysis, and AI fundamentals, reflecting my journey of learning and innovation in technology.</p>
+  <a class="btn" href="{{ url_for('projects') }}">View projects</a>
+</section>
+
+<section class="featured">
+  <h3>Featured Projects</h3>
+  <div class="grid">
+    {% for p in projects %}
+      <article class="card">
+        {% if p.image_filename %}
+          <img src="{{ '/' + p.image_filename }}" alt="{{ p.title }}">
+        {% endif %}
+        <h4><a href="{{ url_for('project_detail', project_id=p.id) }}">{{ p.title }}</a></h4>
+        <p>{{ p.short_description }}</p>
+      </article>
+    {% else %}
+      <p>No projects yet.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
